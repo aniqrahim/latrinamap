@@ -1,0 +1,2 @@
+# latrinamap
+body for latrinavigator
