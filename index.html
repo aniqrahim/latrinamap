@@ -1,0 +1,116 @@
+<html>
+  <head>
+
+  <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map_canvas { height: 100% }
+  </style>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAE7XEs7ZNHtacIX80_vlNwRulukWpHVxk&callback=initMap"
+    async defer>
+  </script>
+    
+  <script type="text/javascript">
+
+    var locations = [
+      ['DATARAN MERDEKA 1', 3.148035,101.692711,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/n8kfEHneszm">Go to Destination</a>'],
+      ['DATARAN MERDEKA 2', 3.149778,101.693523,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/P7oXxMbKUa42">Go to Destination</a>'],
+      ['LORONG TAR (JALAN MASJID INDIA)', 3.151585,101.696107,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/vS1rAnCNucE2">Go to Destination</a>'],
+      ['JALAN SULTAN ISMAIL', 3.160623,101.696185,'24 hours', '<a href="https://goo.gl/maps/vcaDvqSWWLT2">Go to Destination</a>'],
+      ['LAMAN TAR', 3.153095,101.696091,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/c4BjMYNH11R2">Go to Destination</a>'],
+      ['WISMA BUMIRAYA', 3.160623,101.696185,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/vcaDvqSWWLT2">Go to Destination</a>'],
+      ['HENTIAN TEKSI JALAN SULTAN MOHAMED', 3.142885, 101.695788,'', '<a href="https://goo.gl/maps/B5juyZtB7nm">Go to Destination</a>'],
+      ['JALAN PETALING', 3.144911, 101.697968,'24 hours', '<a href="https://goo.gl/maps/dq7tFQMnHZJ2">Go to Destination</a>'],
+      ['MUZIUM NEGARA', 3.137777, 101.689375,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/BRbNNHCP21m">Go to Destination</a>'],
+      ['MASJID NEGARA 1', 3.143208, 101.692469,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/XFEsymngKw92">Go to Destination</a>'],
+      ['MASJID NEGARA 2', 3.141152, 101.692357,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/stdds1DciuR2">Go to Destination</a>'],
+      ['JALAN RAJA ALANG', 3.163772, 101.698523,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/44cad1bU4k22">Go to Destination</a>'],
+      ['TERMINAL BAS TUN RAZAK A', 3.172650, 101.695785,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/xhLsXL3XAd52">Go to Destination</a>'],
+      ['TERMINAL BAS TUN RAZAK B', 3.172227, 101.695669,'24 hours', '<a href="https://goo.gl/maps/i4mAkhJKz412">Go to Destination</a>'],
+      ['JALAN PASAR PUDU', 3.134558, 101.717614,'7.00am - 10.30pm', '<a href="https://goo.gl/maps/tNmdiwPehTp">Go to Destination</a>'],
+      ['JALAN YEW CHERAS', 3.135883, 101.718033,'7.00am - 7.00pms', '<a href="https://goo.gl/maps/atwqeidozXt">Go to Destination</a>'],
+      ['JALAN TAMAN SETIAWANGSA', 3.178719, 101.740782,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/RMTRmd7KpWp">Go to Destination</a>'],
+      ['JINJANG UTARA', 3.213291, 101.658839,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/kArKAWNQdxv">Go to Destination</a>'],
+      ['JALAN IKHLAS, BANDAR TUN RAZAK', 3.085235, 101.718050,'7.00am - 7.00pm', '<a href="https://goo.gl/maps/88wUD1k9psF2">Go to Destination</a>']
+      ];
+      
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+      var directionsService = new google.maps.DirectionsService();
+      var map;
+      
+      directionsDisplay.setMap(map);
+      
+    function initialize() {
+      var myOptions = {
+        center: new google.maps.LatLng(3.160623, 101.696185),
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+        map = new google.maps.Map(document.getElementById("default"),
+          myOptions);
+          
+      setMarkers(map,locations)
+  }
+
+    function setMarkers(map,locations){
+      var marker, i
+      for (i = 0; i < locations.length; i++)
+      
+  {  
+
+      var loan = locations[i][0]
+      var lat = locations[i][1]
+      var long = locations[i][2]
+      var time = locations[i][3]
+      var add =  locations[i][4]
+
+      latlngset = new google.maps.LatLng(lat, long);
+
+      var marker = new google.maps.Marker({  
+        map: map, title: loan , position: latlngset  
+        });
+        map.setCenter(marker.getPosition())
+
+        var content = "<h3>" + loan + "</h3>" + "<h4>" + time + "</h4>" + add
+
+      var infowindow = new google.maps.InfoWindow()
+
+      google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+        return function() {
+           infowindow.setContent(content);
+           infowindow.open(map,marker);
+        };
+      })(marker,content,infowindow)); 
+
+  }
+  }
+  
+    function calculateRoute(){
+      var request = {
+        origin: center,
+        destination: new google.maps.LatLng(3.160623, 101.696185),
+        travelMode: 'DRIVING'
+      };
+      
+      directionsService.route(request, function(result, status)
+      {
+        if (status == "OK"){
+          directionsDisplay.setDirections(result);
+        }
+      });
+    }
+    
+    document.getElementById('get').onclick = function(){
+      calculateRoute();
+    };
+
+    </script>
+  </head>
+  
+  <body onload="initialize()">
+    <div id="default" style="width:100%; height:100%">
+    </div>
+  </body>
+  
+  </html>
