@@ -1,3 +1,3 @@
 # latrinamap
-body for an android app, namely, latrinavigator
+body for an android app, namely, latrinavigator  
 latrinavigator won the third place in MAMPU's open data hackathon 2018, high school category
